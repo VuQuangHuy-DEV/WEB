@@ -54,7 +54,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
   return (
     <>
       <TableRow hover selected={selected}>
-        <TableCell padding="checkbox"></TableCell>
+        <TableCell padding="checkbox">{row.ma_khach_hang}</TableCell>
 
         <TableCell>
           <Stack direction="row" alignItems="center" spacing={2}>

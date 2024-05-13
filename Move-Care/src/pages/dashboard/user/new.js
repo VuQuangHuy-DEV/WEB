@@ -11,6 +11,7 @@ import { useSettingsContext } from '../../../components/settings';
 import CustomBreadcrumbs from '../../../components/custom-breadcrumbs';
 // sections
 import UserNewEditForm from '../../../sections/@dashboard/user/UserNewEditForm';
+import { nameApp } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
@@ -24,22 +25,22 @@ export default function UserCreatePage() {
   return (
     <>
       <Head>
-        <title> User: Create a new user | Minimal UI</title>
+        <title> Khách hàng: Tạo khách hàng mới | {nameApp}</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Create a new user"
+          heading="Tạo Khách hàng mới"
           links={[
             {
-              name: 'Dashboard',
+              name: 'Bảng điều khiển',
               href: PATH_DASHBOARD.root,
             },
             {
               name: 'User',
               href: PATH_DASHBOARD.user.list,
             },
-            { name: 'New user' },
+            { name: 'Khách hàng mới' },
           ]}
         />
         <UserNewEditForm />

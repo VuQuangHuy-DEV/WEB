@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { useCallback, useEffect, useMemo } from 'react';
+import { Select, MenuItem } from '@mui/material';
+
 // next
 import { useRouter } from 'next/router';
 // form
@@ -25,6 +27,9 @@ import FormProvider, {
   RHFUploadAvatar,
 } from '../../../components/hook-form';
 
+//axios
+import axios from 'axios';
+import { API_ROOT } from 'src/config-global';
 // ----------------------------------------------------------------------
 
 UserNewEditForm.propTypes = {
@@ -38,33 +43,25 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    phoneNumber: Yup.string().required('Phone number is required'),
-    address: Yup.string().required('Address is required'),
-    country: Yup.string().required('Country is required'),
-    company: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-   
-    avatarUrl: Yup.mixed().required('Avatar is required'),
+    name: Yup.string().required('Tên là bắt buộc'),
+    email: Yup.string().required('Email là bắt buộc').email('Địa chỉ Email phải đúng định dạng'),
+    phoneNumber: Yup.string().required('Số điện thoại là bắt buộc'),
+    address: Yup.string(),
   });
 
   const defaultValues = useMemo(
     () => ({
       name: currentUser?.ho_ten || '',
       email: currentUser?.email || '',
-      phoneNumber: currentUser?.phoneNumber || '',
-      address: currentUser?.address || '',
-      country: currentUser?.country || '',
-      state: currentUser?.state || '',
-      city: currentUser?.city || '',
-      zipCode: currentUser?.zipCode || '',
+      phoneNumber: currentUser?.phone_number || '',
+      address: currentUser?.dia_chi || '',
+      state: currentUser?.ngay_sinh || '',
+      zipCode: currentUser?.gioi_tinh || '',
       avatarUrl: currentUser?.anh_dai_dien || null,
-      isVerified: currentUser?.isVerified || true,
-      status: currentUser?.status,
-
+      isVerified: currentUser?.is_verify || true,
+      status: currentUser?.is_staff ? 'Đã được kiểm duyệt' : 'Chưa được kiểm duyệt',
     }),
-  
+
     [currentUser]
   );
 
@@ -96,11 +93,30 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
   const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      const postData = {
+        email: data.email,
+        phone_number: data.phoneNumber,
+        password1: '123123',
+        password2: '123123',
+        name: data.name,
+      };
+      // call api here
+
+      const url = API_ROOT + 'auth/khachhang/register/';
+
+      // Thực hiện yêu cầu POST bằng Axios
+      axios
+        .post(url, postData)
+        .then((response) => {
+          console.log('Dữ liệu nhận được sau khi gửi yêu cầu POST:', response.data);
+        })
+        .catch((error) => {
+          console.error('Lỗi khi gửi yêu cầu POST:', error);
+        });
+
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       push(PATH_DASHBOARD.user.list);
-      console.log('DATA', data);
     } catch (error) {
       console.error(error);
     }
@@ -128,7 +144,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {isEdit && (
               <Label
-                color={values.status === 'active' ? 'success' : 'error'}
+                color={values.status === 'Chưa được kiểm duyệt' ? 'error' : 'success'}
                 sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
               >
                 {values.status}
@@ -150,10 +166,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
                       textAlign: 'center',
                       color: 'text.secondary',
                     }}
-                  >
-                    Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br /> max size of {fData(3145728)}
-                  </Typography>
+                  ></Typography>
                 }
               />
             </Box>
@@ -168,9 +181,11 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
                     render={({ field }) => (
                       <Switch
                         {...field}
-                        checked={field.value !== 'active'}
+                        checked={field.value !== 'Chưa được kiểm duyệt'}
                         onChange={(event) =>
-                          field.onChange(event.target.checked ? 'banned' : 'active')
+                          field.onChange(
+                            event.target.checked ? 'Đã được kiểm duyệt' : 'Chưa được kiểm duyệt'
+                          )
                         }
                       />
                     )}
@@ -179,10 +194,10 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
                 label={
                   <>
                     <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                      Banned
+                      Duyệt người dùng này
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Apply disable account
+                      có thể nhận việc trên app
                     </Typography>
                   </>
                 }
@@ -196,10 +211,10 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
               label={
                 <>
                   <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                    Email Verified
+                    Đã xác thực email
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Disabling this will automatically send the user a verification email
+                    Xác thực OTP qua email
                   </Typography>
                 </>
               }
@@ -219,24 +234,22 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
                 sm: 'repeat(2, 1fr)',
               }}
             >
-              <RHFTextField name="name" label="Full Name" />
-              <RHFTextField name="email" label="Email Address" />
-              <RHFTextField name="phoneNumber" label="Phone Number" />
+              <RHFTextField name="name" label="Họ tên" />
+              <RHFTextField name="email" label="Email" />
+              <RHFTextField name="phoneNumber" label="Số điện thoại" />
 
-              <RHFSelect native name="country" label="Country" placeholder="Country">
-                <option value="" />
-                {countries.map((country) => (
-                  <option key={country.code} value={country.label}>
-                    {country.label}
-                  </option>
-                ))}
+              <RHFTextField name="state" label="Ngày sinh" />
+
+              <RHFTextField name="address" label="Địa chỉ" />
+              <RHFSelect
+                name="zipCode"
+                label="Giới tính"
+                control={control} // Truyền control từ useForm vào
+              >
+                <MenuItem value="nam">Nam</MenuItem>
+                <MenuItem value="nữ">Nữ</MenuItem>
+                <MenuItem value="khác">Khác</MenuItem>
               </RHFSelect>
-
-              <RHFTextField name="state" label="State/Region" />
-              <RHFTextField name="city" label="City" />
-              <RHFTextField name="address" label="Address" />
-              <RHFTextField name="zipCode" label="Zip/Code" />
-  
             </Box>
 
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>

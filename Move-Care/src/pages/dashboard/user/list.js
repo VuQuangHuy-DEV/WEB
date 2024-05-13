@@ -68,8 +68,8 @@ const ROLE_OPTIONS = [
 
 const TABLE_HEAD = [
   { id: 'id', label: 'id', align: 'left' },
-  { id: 'name', label: 'Name', align: 'left' },
-  { id: 'company', label: 'Company', align: 'left' },
+  { id: 'name', label: 'Tên', align: 'left' },
+  { id: 'company', label: 'Số điện thoại', align: 'left' },
   { id: 'role', label: 'Role', align: 'left' },
   { id: 'isVerified', label: 'Verified', align: 'center' },
   { id: 'status', label: 'Status', align: 'left' },
@@ -90,7 +90,7 @@ export default function UserListPage() {
 
 
   const {
-    dense,
+   
     page,
     order,
     orderBy,
@@ -103,7 +103,7 @@ export default function UserListPage() {
     onSelectAllRows,
     //
     onSort,
-    onChangeDense,
+
     onChangePage,
     onChangeRowsPerPage,
   } = useTable();
@@ -136,10 +136,28 @@ export default function UserListPage() {
       console.error(error);
     }
   }, []);
+  useEffect(() => {
+    getAllKhachHangs();
+  }, [push]);
+  
+  
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      // Gọi hàm bạn muốn sau một khoảng thời gian
+      // Ví dụ: Gọi hàm getAllKhachHangs() sau 1 giây sau khi component được mount
+      getAllKhachHangs();
+    }, 100); // 1000 milliseconds = 1 giây
+
+    // Cleanup function
+    return () => clearTimeout(timeout);
+  }, []); // dependency array rỗng, chỉ gọi một lần sau khi component được mount
 
   useEffect(() => {
     getAllKhachHangs();
   }, [getAllKhachHangs]);
+
+
+  
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -151,7 +169,7 @@ export default function UserListPage() {
 
   const dataInPage = dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
-  const denseHeight = dense ? 52 : 72;
+
 
   const isFiltered = filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
 
@@ -264,7 +282,7 @@ export default function UserListPage() {
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction
-              dense={dense}
+              
               numSelected={selected.length}
               rowCount={tableData.length}
               onSelectAllRows={(checked) =>
@@ -283,7 +301,7 @@ export default function UserListPage() {
             />
 
             <Scrollbar>
-              <Table size={dense ? 'small' : 'medium'} sx={{ minWidth: 800 }}>
+              <Table  sx={{ minWidth: 800 }}>
                 <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
@@ -291,12 +309,7 @@ export default function UserListPage() {
                   rowCount={tableData.length}
                   numSelected={selected.length}
                   onSort={onSort}
-                  onSelectAllRows={(checked) =>
-                    onSelectAllRows(
-                      checked,
-                      tableData.map((row) => row.id)
-                    )
-                  }
+                
                 />
 
                 <TableBody>
@@ -314,7 +327,7 @@ export default function UserListPage() {
                     ))}
 
                   <TableEmptyRows
-                    height={denseHeight}
+                    
                     emptyRows={emptyRows(page, rowsPerPage, tableData.length)}
                   />
 
@@ -331,8 +344,7 @@ export default function UserListPage() {
             onPageChange={onChangePage}
             onRowsPerPageChange={onChangeRowsPerPage}
             //
-            dense={dense}
-            onChangeDense={onChangeDense}
+        
           />
         </Card>
       </Container>
