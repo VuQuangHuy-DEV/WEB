@@ -40,6 +40,8 @@ InvoiceDetails.propTypes = {
 };
 
 export default function InvoiceDetails({ invoice }) {
+
+
   if (!invoice) {
     return null;
   }
@@ -83,7 +85,7 @@ export default function InvoiceDetails({ invoice }) {
                 {status}
               </Label>
 
-              <Typography variant="h6">{`INV-${invoiceNumber}`}</Typography>
+              <Typography variant="h6">{`INV-${invoice.id}`}</Typography>
             </Box>
           </Grid>
 
@@ -92,11 +94,11 @@ export default function InvoiceDetails({ invoice }) {
               Invoice from
             </Typography>
 
-            <Typography variant="body2">{invoiceFrom.name}</Typography>
+            <Typography variant="body2">{invoice.khach_hang_thue?.ho_ten ? "hi":"not he"}</Typography>
 
-            <Typography variant="body2">{invoiceFrom.address}</Typography>
+            <Typography variant="body2">{invoice.khach_hang_thue?.dia_chi}</Typography>
 
-            <Typography variant="body2">Phone: {invoiceFrom.phone}</Typography>
+            <Typography variant="body2">Phone: {invoice.khach_hang_thue?.phone_number}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
@@ -104,11 +106,11 @@ export default function InvoiceDetails({ invoice }) {
               Invoice to
             </Typography>
 
-            <Typography variant="body2">{invoiceTo.name}</Typography>
+            <Typography variant="body2">{invoice.id}</Typography>
 
-            <Typography variant="body2">{invoiceTo.address}</Typography>
+            <Typography variant="body2">{invoice.id}</Typography>
 
-            <Typography variant="body2">Phone: {invoiceTo.phone}</Typography>
+            <Typography variant="body2">Phone: {invoice.id}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
@@ -140,7 +142,7 @@ export default function InvoiceDetails({ invoice }) {
                 <TableRow>
                   <TableCell width={40}>#</TableCell>
 
-                  <TableCell align="left">Description</TableCell>
+                  <TableCell align="left">Mô tả</TableCell>
 
                   <TableCell align="left">Qty</TableCell>
 
@@ -150,88 +152,7 @@ export default function InvoiceDetails({ invoice }) {
                 </TableRow>
               </TableHead>
 
-              <TableBody>
-                {items.map((row, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
-                    }}
-                  >
-                    <TableCell>{index + 1}</TableCell>
-
-                    <TableCell align="left">
-                      <Box sx={{ maxWidth: 560 }}>
-                        <Typography variant="subtitle2">{row.title}</Typography>
-
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                          {row.description}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-
-                    <TableCell align="left">{row.quantity}</TableCell>
-
-                    <TableCell align="right">{fCurrency(row.price)}</TableCell>
-
-                    <TableCell align="right">{fCurrency(row.price * row.quantity)}</TableCell>
-                  </TableRow>
-                ))}
-
-                <StyledRowResult>
-                  <TableCell colSpan={3} />
-
-                  <TableCell align="right" sx={{ typography: 'body1' }}>
-                    <Box sx={{ mt: 2 }} />
-                    Subtotal
-                  </TableCell>
-
-                  <TableCell align="right" width={120} sx={{ typography: 'body1' }}>
-                    <Box sx={{ mt: 2 }} />
-                    {fCurrency(subTotalPrice)}
-                  </TableCell>
-                </StyledRowResult>
-
-                <StyledRowResult>
-                  <TableCell colSpan={3} />
-
-                  <TableCell align="right" sx={{ typography: 'body1' }}>
-                    Discount
-                  </TableCell>
-
-                  <TableCell
-                    align="right"
-                    width={120}
-                    sx={{ color: 'error.main', typography: 'body1' }}
-                  >
-                    {discount && fCurrency(-discount)}
-                  </TableCell>
-                </StyledRowResult>
-
-                <StyledRowResult>
-                  <TableCell colSpan={3} />
-
-                  <TableCell align="right" sx={{ typography: 'body1' }}>
-                    Taxes
-                  </TableCell>
-
-                  <TableCell align="right" width={120} sx={{ typography: 'body1' }}>
-                    {taxes && fCurrency(taxes)}
-                  </TableCell>
-                </StyledRowResult>
-
-                <StyledRowResult>
-                  <TableCell colSpan={3} />
-
-                  <TableCell align="right" sx={{ typography: 'h6' }}>
-                    Total
-                  </TableCell>
-
-                  <TableCell align="right" width={140} sx={{ typography: 'h6' }}>
-                    {fCurrency(totalPrice)}
-                  </TableCell>
-                </StyledRowResult>
-              </TableBody>
+       
             </Table>
           </Scrollbar>
         </TableContainer>
@@ -240,17 +161,17 @@ export default function InvoiceDetails({ invoice }) {
 
         <Grid container>
           <Grid item xs={12} md={9} sx={{ py: 3 }}>
-            <Typography variant="subtitle2">NOTES</Typography>
+            <Typography variant="subtitle2">Ghi chú</Typography>
 
             <Typography variant="body2">
-              We appreciate your business. Should you need us to add VAT or extra notes let us know!
+            Nếu bạn cần chúng tôi thêm VAT hoặc ghi chú bổ sung, hãy cho chúng tôi biết!
             </Typography>
           </Grid>
 
           <Grid item xs={12} md={3} sx={{ py: 3, textAlign: 'right' }}>
-            <Typography variant="subtitle2">Have a Question?</Typography>
+            <Typography variant="subtitle2">Nếu bạn có câu hỏi?</Typography>
 
-            <Typography variant="body2">support@minimals.cc</Typography>
+            <Typography variant="body2">movecare@support.com</Typography>
           </Grid>
         </Grid>
       </Card>

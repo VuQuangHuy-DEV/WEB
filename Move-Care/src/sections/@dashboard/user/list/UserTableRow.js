@@ -58,7 +58,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
 
         <TableCell>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={ho_ten} src={avatarUrl} />
+            <Avatar alt={ho_ten} src={row.anh_dai_dien} />
 
             <Typography
               variant="subtitle2"

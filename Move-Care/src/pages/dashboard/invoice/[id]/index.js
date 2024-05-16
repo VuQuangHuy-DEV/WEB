@@ -15,6 +15,11 @@ import CustomBreadcrumbs from '../../../../components/custom-breadcrumbs';
 // sections
 import InvoiceDetails from '../../../../sections/@dashboard/invoice/details';
 import { nameApp } from 'src/config-global';
+import axios from 'axios'
+import {useState,useEffect} from 'react'
+
+import { API_ROOT } from 'src/config-global';
+
 
 // ----------------------------------------------------------------------
 //
@@ -25,29 +30,44 @@ InvoiceDetailsPage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayou
 
 export default function InvoiceDetailsPage() {
   const { themeStretch } = useSettingsContext();
+  const [currentInvoice, setCurrentInvoice] = useState(null)
 
   const {
     query: { id },
   } = useRouter();
+  const API_INVO_DETAIL = API_ROOT + `transaction/giaodich/${id}/`
 
-  const currentInvoice = _invoices.find((invoice) => invoice.id === id);
+
+  useEffect(() => {
+    const fetchInvoiceData = async () => {
+      try {
+        const response = await axios.get(API_INVO_DETAIL);
+        setCurrentInvoice(response.data);
+        console.log(response.data.id); // logging the invoice id from response data
+      } catch (error) {
+        console.error('Error fetching invoice data:', error);
+      }
+    };
+
+    fetchInvoiceData();
+  }, []); 
 
   return (
     <>
       <Head>
-        <title> Hóa đơn | {nameApp}</title>
+        <title> Giao dịch | {nameApp}</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Invoice Details"
+          heading="Chi tiết giao dịch"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
+            { name: 'Bảng điều khiển', href: PATH_DASHBOARD.root },
             {
-              name: 'Invoices',
+              name: 'Giao dịch',
               href: PATH_DASHBOARD.invoice.root,
             },
-            { name: `INV-${currentInvoice?.invoiceNumber}` },
+            { name: `MGG: -${currentInvoice?.id}` },
           ]}
         />
 

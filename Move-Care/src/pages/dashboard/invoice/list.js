@@ -105,7 +105,7 @@ export default function InvoiceListPage() {
         const response = await axios.get(API_GIAO_DICH);
         // Sau khi nhận dữ liệu từ API, cập nhật state với dữ liệu mới
         setTableData(response.data);
-        console.log(tableData)
+  
       } catch (error) {
         console.error('Error fetching invoice data:', error);
       }

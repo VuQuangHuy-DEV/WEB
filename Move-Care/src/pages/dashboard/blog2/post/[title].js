@@ -35,7 +35,7 @@ export default function BlogPostPage() {
   } = useRouter();
   const id = title;
 
-  const API_GET_POST_DETAIL = API_ROOT + 'booking/post/detail/' + id + '/';
+  const API_GET_POST_DETAIL = API_ROOT + 'rental/post/detail/' + id + '/';
   const API_DUYET_BAi = API_ROOT + 'booking/post/approve/' + id + '/';
 
   const [post, setPost] = useState(null);
@@ -92,7 +92,7 @@ export default function BlogPostPage() {
             },
             {
               name: 'Bài thuê',
-              href: PATH_DASHBOARD.blog.root,
+              href: PATH_DASHBOARD.blog2.root,
             },
             {
               name: post?.tieu_de,

@@ -150,12 +150,7 @@ export default function UserListPage() {
 
     // Cleanup function
     return () => clearTimeout(timeout);
-  }, []); // dependency array rỗng, chỉ gọi một lần sau khi component được mount
-
-  useEffect(() => {
-    getAllKhachHangs();
-  }, [getAllKhachHangs]);
-
+  }, [getAllKhachHangs]); // dependency array rỗng, chỉ gọi một lần sau khi component được mount
 
   
 

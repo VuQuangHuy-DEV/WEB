@@ -105,7 +105,7 @@ const navConfig = [
       },
       // INVOICE
       {
-        title: 'invoice',
+        title: 'Giao dịch',
         path: PATH_DASHBOARD.invoice.root,
         icon: ICONS.invoice,
         children: [

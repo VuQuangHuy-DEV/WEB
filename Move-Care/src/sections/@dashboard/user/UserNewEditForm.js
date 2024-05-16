@@ -93,26 +93,40 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
 
   const onSubmit = async (data) => {
     try {
-      const postData = {
-        email: data.email,
-        phone_number: data.phoneNumber,
-        password1: '123123',
-        password2: '123123',
-        name: data.name,
-      };
-      // call api here
+      if (!isEdit) {
+        const postData = {
+          email: data.email,
+          phone_number: data.phoneNumber,
+          password1: '123123',
+          password2: '123123',
+          ho_ten: data.name,
+        };
+        const url = API_ROOT + 'auth/khachhang/register/';
+        axios
+          .post(url, postData)
+          .then((response) => {
+            console.log('Dữ liệu nhận được sau khi gửi yêu cầu POST:', response.data);
+          })
+          .catch((error) => {
+            console.error('Lỗi khi gửi yêu cầu POST:', error);
+          });
+      }
+      else {
+        const postData = {
+          email: data.email,
+          ho_ten: data.name,
+        };
+        const url = API_ROOT + `auth/khachhang/update-nonauth/${currentUser.idkh}/`;
+        axios
+          .put(url, postData)
+          .then((response) => {
+            console.log('Dữ liệu nhận được sau khi gửi yêu cầu POST:', response.data);
+          })
+          .catch((error) => {
+            console.error('Lỗi khi gửi yêu cầu POST:', error);
+          });
+      }
 
-      const url = API_ROOT + 'auth/khachhang/register/';
-
-      // Thực hiện yêu cầu POST bằng Axios
-      axios
-        .post(url, postData)
-        .then((response) => {
-          console.log('Dữ liệu nhận được sau khi gửi yêu cầu POST:', response.data);
-        })
-        .catch((error) => {
-          console.error('Lỗi khi gửi yêu cầu POST:', error);
-        });
 
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
