@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 // @mui
-import { Box, Divider, Stack, Container, Typography, Pagination, Button } from '@mui/material';
+import { Box, Divider, Stack, Container, Typography, Button, TextField } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // utils
@@ -16,7 +16,7 @@ import CustomBreadcrumbs from '../../../../components/custom-breadcrumbs';
 import { useSettingsContext } from '../../../../components/settings';
 import { SkeletonPostDetails } from '../../../../components/skeleton';
 // sections
-import { BlogPostHero, BlogPostTags, BlogPostCard } from '../../../../sections/@dashboard/blog';
+import { BlogPostHero, BlogPostTags } from '../../../../sections/@dashboard/blog';
 
 // config
 import { nameApp, API_ROOT, linkIcon } from 'src/config-global';
@@ -39,22 +39,15 @@ export default function BlogPostPage() {
   const API_DUYET_BAi = API_ROOT + 'booking/post/approve/' + id + '/';
   const API_TU_CHOI = API_ROOT + 'booking/post/refuse/' + id + '/';
 
-
-
-  
-
   const [post, setPost] = useState(null);
-
   const [loadingPost, setLoadingPost] = useState(true);
-
   const [errorMsg, setErrorMsg] = useState(null);
+  const [reason, setReason] = useState(''); // State to manage the reason
 
   const getPost = useCallback(async () => {
     try {
       const response = await axios.get(API_GET_POST_DETAIL);
       setPost(response.data.data);
-      console.log(response.data);
-      console.log(post);
       setLoadingPost(false);
     } catch (error) {
       console.error(error);
@@ -69,25 +62,24 @@ export default function BlogPostPage() {
     }
   }, [getPost, id]);
 
-  console.log(post);
-
   const handleDuyet = async () => {
     try {
       const response = await axios.get(API_DUYET_BAi);
       setPost(response.data.data);
-      console.log(response.data);
-      console.log(post);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
-
 
   const handleTuChoi = async () => {
     try {
-      const response = await axios.get(API_TU_CHOI);
+       const response = await axios.post(API_TU_CHOI, { reason });
+      // const response = await axios.get(API_TU_CHOI);
+
       setPost(response.data.data);
-      console.log(response.data);
-      console.log(post);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -134,7 +126,14 @@ export default function BlogPostPage() {
             >
               {post.description}
             </Typography>
-            description: {post.chi_tiet}
+            <Typography
+              variant="body1"
+              sx={{
+                px: { md: 5 },
+              }}
+            >
+              description: {post.chi_tiet}
+            </Typography>
             <Markdown
               children={post.body}
               sx={{
@@ -181,17 +180,32 @@ export default function BlogPostPage() {
               <Divider sx={{ mt: 5, mb: 2 }} />
             </Stack>
             <Stack
-              direction="row" // Đảm bảo cả hai nút nằm trên cùng một hàng
-              spacing={2} // Khoảng cách giữa các nút
+              spacing={2}
               sx={{
-                justifyContent: 'center', // Căn giữa các phần tử trong Stack
                 px: { md: 5 },
-                py: 2, // Khoảng cách lề trên và dưới
+                py: 2,
               }}
             >
               <Button onClick={handleDuyet} variant="contained" color="primary">
                 Duyệt bài
               </Button>
+            </Stack>
+            <Stack
+              spacing={2}
+              sx={{
+                px: { md: 5 },
+                py: 2,
+              }}
+            >
+              <TextField
+                label="Lý do từ chối"
+                variant="outlined"
+                fullWidth
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                multiline
+                rows={4}
+              />
               <Button onClick={handleTuChoi} variant="contained" color="error">
                 Từ chối
               </Button>

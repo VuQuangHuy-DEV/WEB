@@ -19,7 +19,7 @@ import { SkeletonPostItem } from '../../../components/skeleton';
 import { useSettingsContext } from '../../../components/settings';
 import CustomBreadcrumbs from '../../../components/custom-breadcrumbs';
 // sections
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../../../sections/@dashboard/blog';
+import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../../../sections/@dashboard/blog 2';
 //config
 import { nameApp,API_ROOT } from 'src/config-global';
 // ----------------------------------------------------------------------

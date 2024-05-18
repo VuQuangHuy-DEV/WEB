@@ -121,7 +121,8 @@ export default function BlogPostHero({ post }) {
 
       <StyledOverlay />
 
-      <Image alt="cover" src={cover} ratio="16/9" />
+      <Image alt="cover" src={"/favicon/android-chrome-512x512.png"} ratio="16/9" />
     </Box>
+    
   );
 }
