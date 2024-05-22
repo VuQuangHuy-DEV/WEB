@@ -112,7 +112,7 @@ export default function InvoiceAddressListDialog({
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {address.address}
+                {address.dia_chi}
               </Typography>
             </ListItemButton>
           ))}
@@ -128,9 +128,9 @@ function applyFilter(array, query) {
   if (query) {
     return array.filter(
       (address) =>
-        address.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-        address.company.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-        address.address.toLowerCase().indexOf(query.toLowerCase()) !== -1
+        address.ho_ten.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        address.phone_number.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        address.dia_chi.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
 
