@@ -37,7 +37,7 @@ export default function BlogPostPage() {
 
   const API_GET_POST_DETAIL = API_ROOT + 'rental/post/detail/' + id + '/';
   const API_DUYET_BAI = API_ROOT + 'rental/post/approve/' + id + '/';
-  const API_TUCHOI_BAI = API_ROOT + 'rental/post/reject/' + id + '/'; // Assuming you have this endpoint for rejection
+  const API_TUCHOI_BAI = API_ROOT + 'rental/post/refuse/' + id + '/'; // Assuming you have this endpoint for rejection
 
   const [post, setPost] = useState(null);
   const [loadingPost, setLoadingPost] = useState(true);
@@ -75,9 +75,11 @@ export default function BlogPostPage() {
 
   const handleTuChoi = async () => {
     try {
-      const response = await axios.get(API_TUCHOI_BAI, { reason });
+      const response = await axios.post(API_TUCHOI_BAI, { reason });
       console.log(response.data);
       // Handle the response if needed
+      setPost(response.data.data);
+
     } catch (error) {
       console.error(error);
     }
@@ -125,7 +127,7 @@ export default function BlogPostPage() {
                 px: { md: 5 },
               }}
             >
-              {post.description}
+              Tiêu đề:  {post.tieu_de}
             </Typography>
             <Typography
               variant="body1"
@@ -133,7 +135,16 @@ export default function BlogPostPage() {
                 px: { md: 5 },
               }}
             >
-              description: {post.chi_tiet}
+              Chi tiết: {post.chi_tiet}
+            </Typography>
+
+            <Typography
+              variant="body1"
+              sx={{
+                px: { md: 5 },
+              }}
+            >
+              Dịch vụ kèm theo: {post.sub_service}
             </Typography>
             <Markdown
               children={post.body}

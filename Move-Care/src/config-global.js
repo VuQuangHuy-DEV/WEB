@@ -5,6 +5,7 @@ import { PATH_DASHBOARD } from './routes/paths';
 // ----------------------------------------------------------------------
 
 let dev = false;
+
 export const API_ROOT = dev ?  'http://127.0.0.1:8000/api/v1/' :  'https://vuquanghuydev.pythonanywhere.com/api/v1/'
 
 export const linkIcon = '/favicon/favicon-32x32.png';

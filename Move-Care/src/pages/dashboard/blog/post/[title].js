@@ -127,12 +127,45 @@ export default function BlogPostPage() {
               {post.description}
             </Typography>
             <Typography
+              variant="h6"
+              sx={{
+                py: 5,
+                px: { md: 5 },
+              }}
+            >
+              Tiêu đề: {post.tieu_de}
+            </Typography>
+            <Typography
               variant="body1"
               sx={{
                 px: { md: 5 },
               }}
             >
-              description: {post.chi_tiet}
+              Mô tả ngắn: {post.mo_ta_ngan}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                px: { md: 5 },
+              }}
+            >
+              Mô tả chi tiết: {post.chi_tiet}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                px: { md: 5 },
+              }}
+            >
+              Giá mong muốn: {post.gia}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                px: { md: 5 },
+              }}
+            >
+              Địa chỉ làm việc: {post.dia_chi}
             </Typography>
             <Markdown
               children={post.body}

@@ -8,7 +8,7 @@ const ROOTS_AUTH = '/auth';
 const ROOTS_DASHBOARD = '/dashboard';
 
 // ----------------------------------------------------------------------
-export const PATH_LINK_DOWNDOWN = "https://google.com"
+export const PATH_LINK_DOWNDOWN = "https://drive.google.com/drive/folders/1M7aLPN-3WqwP0ZW35_7XPkOwoFph2pa5"
 export const PATH_AUTH = {
   root: ROOTS_AUTH,
   login: path(ROOTS_AUTH, '/login'),
