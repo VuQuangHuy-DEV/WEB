@@ -54,14 +54,14 @@ import axios from 'axios';
 //
 import { nameApp, API_ROOT } from 'src/config-global';
 
-const API_GIAO_DICH = API_ROOT + 'transaction/giaodich/'
+const API_GIAO_DICH = API_ROOT + 'transaction/giaodich/';
 
 const TABLE_HEAD = [
-  { id: 'invoiceNumber', label: 'Khách hàng', align: 'left' },
+  { id: 'invoiceNumber', label: 'id HĐ', align: 'left' },
   { id: 'createDate', label: 'Ngày tạo', align: 'left' },
   { id: 'dueDate', label: 'Ngày thực hiện', align: 'left' },
   { id: 'price', label: 'Giá', align: 'center', width: 140 },
-  { id: 'sent', label: 'Sent', align: 'center', width: 140 },
+  { id: 'sent', label: 'Loại giao dịch', align: 'center', width: 140 },
   { id: 'status', label: 'Trạng thái', align: 'left' },
   { id: '' },
 ];
@@ -80,7 +80,6 @@ export default function InvoiceListPage() {
   const { push } = useRouter();
 
   const {
-   
     page,
     order,
     orderBy,
@@ -93,7 +92,7 @@ export default function InvoiceListPage() {
     onSelectAllRows,
     //
     onSort,
-   
+
     onChangePage,
     onChangeRowsPerPage,
   } = useTable({ defaultOrderBy: 'createDate' });
@@ -105,7 +104,6 @@ export default function InvoiceListPage() {
         const response = await axios.get(API_GIAO_DICH);
         // Sau khi nhận dữ liệu từ API, cập nhật state với dữ liệu mới
         setTableData(response.data);
-  
       } catch (error) {
         console.error('Error fetching invoice data:', error);
       }
@@ -138,8 +136,6 @@ export default function InvoiceListPage() {
 
   const dataInPage = dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
-
-
   const isFiltered =
     filterStatus !== 'all' ||
     filterName !== '' ||
@@ -162,8 +158,6 @@ export default function InvoiceListPage() {
     );
 
   const getPercentByStatus = (status) => (getLengthByStatus(status) / tableData.length) * 100;
-
-
 
   const handleOpenConfirm = () => {
     setOpenConfirm(true);
@@ -267,20 +261,13 @@ export default function InvoiceListPage() {
           }
         />
 
-        
-
         <Card>
-         
-
-
-
           <InvoiceTableToolbar
             isFiltered={isFiltered}
             filterName={filterName}
             filterService={filterService}
             filterEndDate={filterEndDate}
             onFilterName={handleFilterName}
-           
             onResetFilter={handleResetFilter}
             filterStartDate={filterStartDate}
             onFilterService={handleFilterService}
@@ -294,7 +281,6 @@ export default function InvoiceListPage() {
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction
-             
               numSelected={selected.length}
               rowCount={tableData.length}
               onSelectAllRows={(checked) =>
@@ -333,7 +319,7 @@ export default function InvoiceListPage() {
             />
 
             <Scrollbar>
-              <Table  sx={{ minWidth: 800 }}>
+              <Table sx={{ minWidth: 800 }}>
                 <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
@@ -364,10 +350,7 @@ export default function InvoiceListPage() {
                       />
                     ))}
 
-                  <TableEmptyRows
-                   
-                    emptyRows={emptyRows(page, rowsPerPage, tableData.length)}
-                  />
+                  <TableEmptyRows emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
 
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody>
@@ -382,8 +365,6 @@ export default function InvoiceListPage() {
             onPageChange={onChangePage}
             onRowsPerPageChange={onChangeRowsPerPage}
             //
-           
-           
           />
         </Card>
       </Container>

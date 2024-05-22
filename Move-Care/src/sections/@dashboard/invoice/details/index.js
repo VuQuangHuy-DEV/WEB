@@ -40,8 +40,6 @@ InvoiceDetails.propTypes = {
 };
 
 export default function InvoiceDetails({ invoice }) {
-
-
   if (!invoice) {
     return null;
   }
@@ -67,68 +65,108 @@ export default function InvoiceDetails({ invoice }) {
       <Card sx={{ pt: 5, px: 5 }}>
         <Grid container>
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-            <Image disabledEffect alt="logo" src="/favicon/android-chrome-512x512.png" sx={{ maxWidth: 120 }} />
+            <Image
+              disabledEffect
+              alt="logo"
+              src="/favicon/android-chrome-512x512.png"
+              sx={{ maxWidth: 120 }}
+            />
           </Grid>
-          
+
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Box sx={{ textAlign: { sm: 'right' } }}>
               <Label
                 variant="soft"
                 color={
-                  (status === 'paid' && 'success') ||
-                  (status === 'unpaid' && 'warning') ||
-                  (status === 'overdue' && 'error') ||
+                  (invoice.trang_thai === 'successful' && 'success') ||
+                  (invoice.trang_thai === 'waiting' && 'warning') ||
+                  (invoice.trang_thai === 'cancel' && 'error') ||
                   'default'
                 }
                 sx={{ textTransform: 'uppercase', mb: 1 }}
               >
-                {status}
+                {invoice.trang_thai}
               </Label>
 
-              <Typography variant="h6">{`INV-${invoice.id}`}</Typography>
+              <Typography variant="h6">{`Mã giao dịch - ${invoice.id}`}</Typography>
             </Box>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Invoice from
+              Khách hàng
             </Typography>
 
-            <Typography variant="body2">{invoice.khach_hang_thue?.ho_ten ? "hi":"not he"}</Typography>
+            {invoice.khach_hang_thue ? (
+              <>
+                <Typography variant="body2">
+                  Mã khách hàng: {invoice.khach_hang_thue.ma_khach_hang}
+                </Typography>
+                <Typography variant="body2">Tên: {invoice.khach_hang_thue.ho_ten}</Typography>
 
-            <Typography variant="body2">{invoice.khach_hang_thue?.dia_chi}</Typography>
+                <Typography variant="body2">
+                  Giới tính: {invoice.khach_hang_thue.gioi_tinh}
+                </Typography>
 
-            <Typography variant="body2">Phone: {invoice.khach_hang_thue?.phone_number}</Typography>
+                <Typography variant="body2">
+                  Số điện thoại: {invoice.khach_hang_thue?.phone_number}
+                </Typography>
+              </>
+            ) : (
+              <Typography variant="body2">Chưa có khách hàng</Typography>
+            )}
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Invoice to
+              Nhân viên thực hiện
             </Typography>
 
-            <Typography variant="body2">{invoice.id}</Typography>
+            {invoice.nhan_vien_thuc_hien ? (
+              <>
+                <Typography variant="body2">{invoice.id}</Typography>
 
-            <Typography variant="body2">{invoice.id}</Typography>
+                <Typography variant="body2">{invoice.id}</Typography>
 
-            <Typography variant="body2">Phone: {invoice.id}</Typography>
+                <Typography variant="body2">Phone: {invoice.id}</Typography>
+              </>
+            ) : (
+              'Chưa có nhân viên thực hiện'
+            )}
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              date create
+              Ngày khởi tạo
             </Typography>
 
-            <Typography variant="body2">{fDate(createDate)}</Typography>
+            <Typography variant="body2">{fDate(invoice.create_at)}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Due date
+              Thời gian làm việc
             </Typography>
 
-            <Typography variant="body2">{fDate(dueDate)}</Typography>
+            <Typography variant="body2">{fDate(invoice.thoi_gian_lam_viec)}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+            <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
+              Giá trị giao dịch
+            </Typography>
+
+            <Typography variant="body2">{invoice.gia_tri}</Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
+            <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
+              Địa chỉ làm việc
+            </Typography>
+
+            <Typography variant="body2">{invoice.dia_chi_lam_viec}</Typography>
           </Grid>
         </Grid>
+        
 
         <TableContainer sx={{ overflow: 'unset' }}>
           <Scrollbar>
@@ -138,21 +176,7 @@ export default function InvoiceDetails({ invoice }) {
                   borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
                   '& th': { backgroundColor: 'transparent' },
                 }}
-              >
-                <TableRow>
-                  <TableCell width={40}>#</TableCell>
-
-                  <TableCell align="left">Mô tả</TableCell>
-
-                  <TableCell align="left">Qty</TableCell>
-
-                  <TableCell align="right">Unit price</TableCell>
-
-                  <TableCell align="right">Total</TableCell>
-                </TableRow>
-              </TableHead>
-
-       
+              ></TableHead>
             </Table>
           </Scrollbar>
         </TableContainer>
@@ -164,7 +188,7 @@ export default function InvoiceDetails({ invoice }) {
             <Typography variant="subtitle2">Ghi chú</Typography>
 
             <Typography variant="body2">
-            Nếu bạn cần chúng tôi thêm VAT hoặc ghi chú bổ sung, hãy cho chúng tôi biết!
+              Nếu bạn cần chúng tôi thêm VAT hoặc ghi chú bổ sung, hãy cho chúng tôi biết!
             </Typography>
           </Grid>
 

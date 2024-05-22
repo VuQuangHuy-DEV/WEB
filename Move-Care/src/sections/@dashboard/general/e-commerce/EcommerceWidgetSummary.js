@@ -108,7 +108,7 @@ function TrendingInfo({ percent }) {
         {fPercent(percent)}
 
         <Box component="span" sx={{ color: 'text.secondary', typography: 'body2' }}>
-          {' than last week'}
+          {' so với tuần trước'}
         </Box>
       </Typography>
     </Stack>

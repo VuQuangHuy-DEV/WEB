@@ -33,8 +33,7 @@ export default function HomePage() {
     <>
       <Head>
         <title> Trang chủ | {nameApp}</title>
-        
-
+  
         <link rel="icon" type="image/png" href={linkIcon}/>        
         
       </Head>

@@ -27,7 +27,7 @@ import FormProvider, {
 import BlogNewPostPreview from './BlogNewPostPreview';
 
 // root endpoint
-import API_ROOT from '../../../config-global'
+import { API_ROOT } from 'src/config-global';
 
 
 

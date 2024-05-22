@@ -2,14 +2,35 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Stack, TextField, MenuItem } from '@mui/material';
 import { RHFSelect, RHFTextField } from '../../../../components/hook-form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const STATUS_OPTIONS = ['chờ duyệt', 'đang tiến hành', 'đã tiến hành', 'thành công'];
 
-export default function InvoiceNewEditStatusDate() {
-  const { control, watch } = useFormContext(); // Lấy hàm watch từ useFormContext
-  const values = watch(); // Sử dụng watch để lấy giá trị của các trường trong form
+export default function InvoiceNewEditStatusDate({ invoice }) {
+  const { control, watch, setValue } = useFormContext();
+  const values = watch();
   const [status, setStatus] = useState(STATUS_OPTIONS[0]);
+  
+  // Khởi tạo state cho các ngày
+  const [createDate, setCreateDate] = useState(invoice?.created_at);
+  const [dueDate, setDueDate] = useState(invoice?.thoi_gian_lam_viec);
+
+  // Cập nhật state khi invoice thay đổi
+  useEffect(() => {
+    if (invoice) {
+      setCreateDate(invoice.create_at);
+      setDueDate(invoice.thoi_gian_lam_viec);
+    } 
+  }, [invoice]);
+
+  // Đồng bộ state với giá trị trong form
+  useEffect(() => {
+    setValue('createDate', createDate);
+  }, [createDate, setValue]);
+
+  useEffect(() => {
+    setValue('dueDate', dueDate);
+  }, [dueDate, setValue]);
 
   return (
     <Stack
@@ -20,8 +41,8 @@ export default function InvoiceNewEditStatusDate() {
       <RHFTextField
         disabled
         name="invoiceNumber"
-        label="Invoice number"
-        value={`INV-${values.invoiceNumber}`} // Sử dụng giá trị từ watch
+        label="Số hóa đơn"
+        value={`INV-${invoice?.id}`} // Sử dụng giá trị từ invoice
       />
 
       <RHFSelect  
@@ -45,8 +66,8 @@ export default function InvoiceNewEditStatusDate() {
         render={({ field, fieldState: { error } }) => (
           <DatePicker
             label="Ngày khởi tạo"
-            value={field.value}
-            onChange={(newValue) => field.onChange(newValue)}
+            value={createDate}
+            onChange={(newValue) => setCreateDate(newValue)}
             renderInput={(params) => (
               <TextField {...params} fullWidth error={!!error} helperText={error?.message} />
             )}
@@ -60,8 +81,8 @@ export default function InvoiceNewEditStatusDate() {
         render={({ field, fieldState: { error } }) => (
           <DatePicker
             label="Ngày thực hiện"
-            value={field.value}
-            onChange={(newValue) => field.onChange(newValue)}
+            value={dueDate}
+            onChange={(newValue) => setDueDate(newValue)}
             renderInput={(params) => (
               <TextField {...params} fullWidth error={!!error} helperText={error?.message} />
             )}

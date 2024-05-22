@@ -51,7 +51,7 @@ export default function Login() {
       </Stack>
 
       <Alert severity="info" sx={{ mb: 3 }}>
-        Use email : <strong>admin@admin</strong> / password :<strong>123456</strong>
+        Use email : <strong>huynv01@gmail.com</strong> / password :<strong>123123</strong>
       </Alert>
 
       <AuthLoginForm />

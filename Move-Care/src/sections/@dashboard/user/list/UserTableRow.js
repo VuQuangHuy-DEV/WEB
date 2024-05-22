@@ -76,7 +76,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         <TableCell align="left">{row.phone_number}</TableCell>
 
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {role}
+          {row.is_staff  ?"Người lao động": "Khách hàng thường"}
         </TableCell>
 
         <TableCell align="center">
@@ -94,10 +94,10 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         <TableCell align="left">
           <Label
             variant="soft"
-            color={(status === 'banned' && 'error') || 'success'}
+            color={(row.is_active === 'hoạt động' && 'error') || 'success'}
             sx={{ textTransform: 'capitalize' }}
           >
-            {status}
+            {row.is_active ? "hoạt động" :" banned"}
           </Label>
         </TableCell>
 
@@ -140,11 +140,11 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
       <ConfirmDialog
         open={openConfirm}
         onClose={handleCloseConfirm}
-        title="Delete"
-        content="Are you sure want to delete?"
+        title="Xác nhận xóa"
+        content="Bạn có chắc chắn muốn xóa?"
         action={
           <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
+            Xóa
           </Button>
         }
       />

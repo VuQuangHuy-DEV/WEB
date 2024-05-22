@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // form
 import { useFormContext } from 'react-hook-form';
 // @mui
@@ -12,6 +12,10 @@ import { _invoiceAddressFrom, _invoiceAddressTo } from '../../../../_mock/arrays
 import Iconify from '../../../../components/iconify';
 //
 import InvoiceAddressListDialog from './InvoiceAddressListDialog';
+
+import axios from 'axios';
+import { API_ROOT } from 'src/config-global';
+const API_GET_KHS = API_ROOT + 'auth/khachhang/getlist/';
 
 // ----------------------------------------------------------------------
 
@@ -27,10 +31,36 @@ export default function InvoiceNewEditAddress() {
   const values = watch();
 
   const { invoiceFrom, invoiceTo } = values;
+  const [fromPerson, setFromPerson] = useState([]);
+  const [toPerson, setToPerson] = useState([]);
 
   const [openFrom, setOpenFrom] = useState(false);
-
   const [openTo, setOpenTo] = useState(false);
+
+  useEffect(() => {
+    const fetchInvoiceFrom = async () => {
+      try {
+        const response = await axios.get(API_GET_KHS);
+        setFromPerson(response.data.data);
+        setValue('invoiceFrom', response.data.data[0]); // Set the first item by default or adjust as needed
+      } catch (error) {
+        console.error('Failed to fetch invoiceFrom data:', error);
+      }
+    };
+
+    const fetchInvoiceTo = async () => {
+      try {
+        const response = await axios.get(API_GET_KHS);
+        setToPerson(response.data.data);
+        setValue('invoiceTo', response.data.data[0]); // Set the first item by default or adjust as needed
+      } catch (error) {
+        console.error('Failed to fetch invoiceTo data:', error);
+      }
+    };
+
+    fetchInvoiceFrom();
+    fetchInvoiceTo();
+  }, [setValue]);
 
   const handleOpenFrom = () => {
     setOpenFrom(true);
@@ -78,17 +108,23 @@ export default function InvoiceNewEditAddress() {
           <InvoiceAddressListDialog
             open={openFrom}
             onClose={handleCloseFrom}
-            selected={(selectedId) => invoiceFrom?.id === selectedId}
+            selected={(selectedId) => invoiceFrom?.idkh === selectedId}
             onSelect={(address) => setValue('invoiceFrom', address)}
-            addressOptions={_invoiceAddressFrom}
+            addressOptions={fromPerson}
           />
         </Stack>
 
-        <AddressInfo
-          name={invoiceFrom.name}
-          address={invoiceFrom.address}
-          phone={invoiceFrom.phone}
-        />
+        {invoiceFrom ? (
+          <AddressInfo
+            name={invoiceFrom.ho_ten}
+            address={invoiceFrom.dia_chi}
+            phone={invoiceFrom.phone_number}
+          />
+        ) : (
+          <Typography typography="caption" sx={{ color: 'error.main' }}>
+            {errors.invoiceFrom?.message}
+          </Typography>
+        )}
       </Stack>
 
       <Stack sx={{ width: 1 }}>
@@ -108,14 +144,14 @@ export default function InvoiceNewEditAddress() {
           <InvoiceAddressListDialog
             open={openTo}
             onClose={handleCloseTo}
-            selected={(selectedId) => invoiceTo?.id === selectedId}
+            selected={(selectedId) => invoiceTo?.idkh === selectedId}
             onSelect={(address) => setValue('invoiceTo', address)}
-            addressOptions={_invoiceAddressTo}
+            addressOptions={toPerson}
           />
         </Stack>
 
         {invoiceTo ? (
-          <AddressInfo name={invoiceTo.name} address={invoiceTo.address} phone={invoiceTo.phone} />
+          <AddressInfo name={invoiceTo.ho_ten} address={invoiceTo.dia_chi} phone={invoiceTo.phone_number} />
         ) : (
           <Typography typography="caption" sx={{ color: 'error.main' }}>
             {errors.invoiceTo?.message}

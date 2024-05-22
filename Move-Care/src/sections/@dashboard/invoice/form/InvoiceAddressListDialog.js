@@ -35,7 +35,7 @@ export default function InvoiceAddressListDialog({
 
   const dataFiltered = applyFilter(addressOptions, searchAddress);
 
-  const isNotFound = !dataFiltered.length && !!searchAddress;
+  const isNotFound = !dataFiltered?.length && !!searchAddress;
 
   const handleSearchAddress = (event) => {
     setSearchAddress(event.target.value);
@@ -55,22 +55,16 @@ export default function InvoiceAddressListDialog({
         justifyContent="space-between"
         sx={{ pt: 2.5, px: 3 }}
       >
-        <Typography variant="h6"> Select address </Typography>
+        <Typography variant="h6"> Chọn  </Typography>
 
-        <Button
-          size="small"
-          startIcon={<Iconify icon="eva:plus-fill" />}
-          sx={{ alignSelf: 'flex-end' }}
-        >
-          Add New
-        </Button>
+       
       </Stack>
 
       <Stack sx={{ p: 2.5 }}>
         <TextField
           value={searchAddress}
           onChange={handleSearchAddress}
-          placeholder="Search..."
+          placeholder="Nhập người bạn muốn tìm"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -85,10 +79,10 @@ export default function InvoiceAddressListDialog({
         <SearchNotFound query={searchAddress} sx={{ px: 3, pt: 5, pb: 10 }} />
       ) : (
         <Stack sx={{ p: 1.5, pt: 0, maxHeight: 80 * 8, overflowX: 'hidden' }}>
-          {dataFiltered.map((address) => (
+          {dataFiltered?.map((address) => (
             <ListItemButton
               key={address.id}
-              selected={selected(address.id)}
+              selected={selected(address.idkh)}
               onClick={() => handleSelectAddress(address)}
               sx={{
                 p: 1.5,
@@ -103,7 +97,7 @@ export default function InvoiceAddressListDialog({
                 },
               }}
             >
-              <Typography variant="subtitle2">{address.name}</Typography>
+              <Typography variant="subtitle2">{address.ho_ten}</Typography>
 
               <Typography
                 variant="caption"
@@ -114,7 +108,7 @@ export default function InvoiceAddressListDialog({
                   fontWeight: 'fontWeightMedium',
                 }}
               >
-                {address.company}
+                {address.phone_number}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>

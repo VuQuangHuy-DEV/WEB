@@ -29,14 +29,15 @@ InvoiceNewEditForm.propTypes = {
 
 export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
   const { push } = useRouter();
+  // console.error(currentInvoice.id)
 
   const [loadingSave, setLoadingSave] = useState(false);
 
   const [loadingSend, setLoadingSend] = useState(false);
 
   const NewUserSchema = Yup.object().shape({
-    invoiceTo: Yup.mixed().required('Invoice to is required'),
-    dueDate: Yup.date().min(Yup.ref('createDate'), 'Due date must be later than create date'),
+    invoiceTo: Yup.mixed(),
+    dueDate: Yup.date(),
   });
 
   const defaultValues = useMemo(
@@ -113,9 +114,9 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
       <Card>
         <InvoiceNewEditAddress />
 
-        <InvoiceNewEditStatusDate />
+        <InvoiceNewEditStatusDate invoice = {currentInvoice}/>
 
-        <InvoiceNewEditDetails />
+        {/* <InvoiceNewEditDetails /> */}
       </Card>
 
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
@@ -127,7 +128,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
           loading={loadingSend && isSubmitting}
           onClick={handleSubmit(handleCreateAndSend)}
         >
-          {isEdit ? 'Chính sửa' : 'Tạo'} & Lưu
+          {isEdit ? 'Chỉnh sửa' : 'Tạo'} & Lưu
         </LoadingButton>
       </Stack>
     </FormProvider>

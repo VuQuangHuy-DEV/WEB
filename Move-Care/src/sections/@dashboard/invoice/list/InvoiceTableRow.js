@@ -77,9 +77,9 @@ export default function InvoiceTableRow({
 
             <div>
               <Typography variant="subtitle2" noWrap>
-                {row.id} Hello
+                {row.id}
               </Typography>
-
+{/* 
               <Link
                 noWrap
                 variant="body2"
@@ -87,7 +87,7 @@ export default function InvoiceTableRow({
                 sx={{ color: 'text.disabled', cursor: 'pointer' }}
               >
                 {`INV-${invoiceNumber}`}
-              </Link>
+              </Link> */}
             </div>
           </Stack>
         </TableCell>
@@ -99,20 +99,20 @@ export default function InvoiceTableRow({
         <TableCell align="center">{fCurrency(row.gia_tri)} đ</TableCell>
 
         <TableCell align="center" sx={{ textTransform: 'capitalize' }}>
-          {sent}
+          {row.loai_giao_dich}
         </TableCell>
 
         <TableCell align="left">
           <Label
             variant="soft"
             color={
-              (status === 'paid' && 'success') ||
-              (status === 'unpaid' && 'warning') ||
-              (status === 'overdue' && 'error') ||
+              (row.trang_thai === 'successful' && 'success') ||
+              (row.trang_thai === 'waiting' && 'warning') ||
+              (row.trang_thai === 'cancel' && 'error') ||
               'default'
             }
           >
-            {status}
+            {row.trang_thai}
           </Label>
         </TableCell>
 
@@ -136,7 +136,7 @@ export default function InvoiceTableRow({
           }}
         >
           <Iconify icon="eva:eye-fill" />
-          View
+          Chi tiết
         </MenuItem>
 
         <MenuItem
@@ -146,7 +146,7 @@ export default function InvoiceTableRow({
           }}
         >
           <Iconify icon="eva:edit-fill" />
-          Edit
+          Chỉnh sửa
         </MenuItem>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
@@ -159,8 +159,7 @@ export default function InvoiceTableRow({
           sx={{ color: 'error.main' }}
         >
           <Iconify icon="eva:trash-2-outline" />
-          Delete
-        </MenuItem>
+          Xóa        </MenuItem>
       </MenuPopover>
 
       <ConfirmDialog

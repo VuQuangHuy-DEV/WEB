@@ -14,6 +14,10 @@ import { useSettingsContext } from '../../../../components/settings';
 import CustomBreadcrumbs from '../../../../components/custom-breadcrumbs';
 // sections
 import InvoiceNewEditForm from '../../../../sections/@dashboard/invoice/form';
+import { useState,useEffect } from 'react';
+
+//axios
+import axios from 'axios';
 
 // ----------------------------------------------------------------------
 import { API_ROOT,appName } from 'src/config-global';
@@ -23,12 +27,30 @@ InvoiceEditPage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default function InvoiceEditPage() {
   const { themeStretch } = useSettingsContext();
+  const [invoice,setInvoice]= useState()
 
   const {
     query: { id },
   } = useRouter();
 
-  const currentInvoice = _invoices.find((invoice) => invoice.id === id);
+
+  const [currentInvoice, setCurrentInvoice] = useState(null)
+  const API_INVO_DETAIL = API_ROOT + `transaction/giaodich/${id}/`
+
+
+  useEffect(() => {
+    const fetchInvoiceData = async () => {
+      try {
+        const response = await axios.get(API_INVO_DETAIL);
+        setCurrentInvoice(response.data);
+        console.log(response.data.id); // logging the invoice id from response data
+      } catch (error) {
+        console.error('Error fetching invoice data:', error);
+      }
+    };
+
+    fetchInvoiceData();
+  }, []); 
 
   return (
     <>
@@ -48,7 +70,7 @@ export default function InvoiceEditPage() {
               name: 'Giao dịch',
               href: PATH_DASHBOARD.invoice.list,
             },
-            { name: `GD-${currentInvoice?.invoiceNumber}` },
+            { name: `GD-${id}` },
           ]}
         />
 

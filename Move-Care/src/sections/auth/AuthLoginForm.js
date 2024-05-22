@@ -29,7 +29,7 @@ export default function AuthLoginForm() {
   });
 
   const defaultValues = {
-    email: 'Huy182001@gmail.com',
+    email: 'huynv01@gmail.com',
     password: '123123',
   };
 
