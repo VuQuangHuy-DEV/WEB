@@ -25,7 +25,7 @@ export default function BlogNewPostPage() {
   return (
     <>
       <Head>
-        <title> Blog: Bài viết mới |{nameApp}</title>
+        <title> Blog: Bài viết mới |Move-Care</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

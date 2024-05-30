@@ -26,7 +26,7 @@ export default function NewPasswordPage() {
   return (
     <>
       <Head>
-        <title> Mật khẩu mới | {nameApp}</title>
+        <title> Mật khẩu mới | Move-Care</title>
       </Head>
 
       <SentIcon sx={{ mb: 5, height: 96 }} />

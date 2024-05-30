@@ -11,7 +11,7 @@ export default function RegisterPage() {
   return (
     <>
       <Head>
-        <title> Đăng ký | Help - Care</title>
+        <title> Đăng ký | Move-Care</title>
       </Head>
 
       <GuestGuard>

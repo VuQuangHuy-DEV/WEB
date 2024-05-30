@@ -27,7 +27,7 @@ export default function ResetPasswordPage() {
   return (
     <>
       <Head>
-        <title> Quên mật khẩu | {nameApp}</title>
+        <title> Quên mật khẩu | Move-Care</title>
       </Head>
 
       <PasswordIcon sx={{ mb: 5, height: 96 }} />

@@ -184,18 +184,7 @@ export default function BlogNewPostForm() {
 
          
 
-              <Stack spacing={1}>
-                <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
-                  Cover
-                </Typography>
-
-                <RHFUpload
-                  name="cover"
-                  maxSize={3145728}
-                  onDrop={handleDrop}
-                  onDelete={handleRemoveFile}
-                />
-              </Stack>
+              
             </Stack>
           </Card>
         </Grid>
@@ -204,19 +193,9 @@ export default function BlogNewPostForm() {
           <Card sx={{ p: 3 }}>
             <Stack spacing={3}>
               <div>
-                <RHFSwitch
-                  name="publish"
-                  label="Publish"
-                  labelPlacement="start"
-                  sx={{ mb: 1, mx: 0, width: 1, justifyContent: 'space-between' }}
-                />
+                
 
-                <RHFSwitch
-                  name="comments"
-                  label="Enable comments"
-                  labelPlacement="start"
-                  sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-                />
+           
               </div>
 
               <div>
@@ -238,14 +217,7 @@ export default function BlogNewPostForm() {
                 </Select>
               </div>
 
-              <RHFAutocomplete
-                name="tags"
-                label="Tags"
-                multiple
-                freeSolo
-                options={TAGS_OPTION.map((option) => option)}
-                ChipProps={{ size: 'small' }}
-              />
+
 
               <RHFTextField name="metaTitle" label="Meta title" />
 
@@ -269,15 +241,7 @@ export default function BlogNewPostForm() {
           </Card>
 
           <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
-            <Button
-              fullWidth
-              color="inherit"
-              variant="outlined"
-              size="large"
-              onClick={handleOpenPreview}
-            >
-              Preview
-            </Button>
+      
 
             <LoadingButton
               fullWidth
@@ -286,7 +250,7 @@ export default function BlogNewPostForm() {
               size="large"
               loading={isSubmitting}
             >
-              Post
+              Đăng bài
             </LoadingButton>
           </Stack>
         </Grid>

@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack } from '@mui/material';
+import { Card, Stack ,Typography} from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // mock
@@ -112,16 +112,25 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
   return (
     <FormProvider methods={methods}>
       <Card>
-        <InvoiceNewEditAddress />
+        <InvoiceNewEditAddress invoice = {currentInvoice} />
 
         <InvoiceNewEditStatusDate invoice = {currentInvoice}/>
 
         {/* <InvoiceNewEditDetails /> */}
       </Card>
 
-      <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
-     
 
+      <Typography
+              variant="body1"
+              sx={{
+                pb: 2,
+              }}
+            >
+              <strong>Giá trị giao dịch:</strong> {parseInt(currentInvoice?.gia_tri).toLocaleString("vi-VN")} đồng
+        </Typography>
+            
+
+      <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
         <LoadingButton
           size="large"
           variant="contained"

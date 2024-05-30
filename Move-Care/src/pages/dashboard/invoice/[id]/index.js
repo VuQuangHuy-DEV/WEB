@@ -55,7 +55,7 @@ export default function InvoiceDetailsPage() {
   return (
     <>
       <Head>
-        <title> Giao dịch | {nameApp}</title>
+        <title> Giao dịch | Move-Care</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

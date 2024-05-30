@@ -20,7 +20,7 @@ export default function ContactPage() {
   return (
     <>
       <Head>
-        <title> Liên hệ | {nameApp}</title>
+        <title> Liên hệ | Move-Care</title>
         <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png"/> 
       </Head>
 

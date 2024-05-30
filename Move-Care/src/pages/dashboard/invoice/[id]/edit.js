@@ -55,7 +55,7 @@ export default function InvoiceEditPage() {
   return (
     <>
       <Head>
-        <title> Giao dịch: Chỉnh sửa | {appName}</title>
+        <title> Giao dịch: Chỉnh sửa | Move-Care</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

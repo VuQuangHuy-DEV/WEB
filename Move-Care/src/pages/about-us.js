@@ -19,7 +19,7 @@ export default function AboutPage() {
   return (
     <>
       <Head>
-        <title> Về chúng tôi | {nameApp}</title>
+        <title> Về chúng tôi | Move-Care</title>
         <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png"/> 
       </Head>
 

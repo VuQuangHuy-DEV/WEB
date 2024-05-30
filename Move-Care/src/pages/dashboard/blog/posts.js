@@ -63,7 +63,7 @@ export default function BlogPostsPage() {
   return (
     <>
       <Head>
-        <title> Bài viết: thuê | {nameApp}</title>
+        <title> Bài viết: thuê | Move-Care</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

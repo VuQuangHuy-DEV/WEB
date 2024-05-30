@@ -24,7 +24,7 @@ export default function InvoiceCreatePage() {
   return (
     <>
       <Head>
-        <title> Invoices: Create a new invoice | Minimal UI</title>
+        <title> Giao dịch: Tạo giao dịch mới | Move-Care</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

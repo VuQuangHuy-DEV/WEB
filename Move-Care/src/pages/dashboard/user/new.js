@@ -25,7 +25,7 @@ export default function UserCreatePage() {
   return (
     <>
       <Head>
-        <title> Khách hàng: Tạo khách hàng mới | {nameApp}</title>
+        <title> Khách hàng: Tạo khách hàng mới | Move-Care</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

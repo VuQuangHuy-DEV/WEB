@@ -32,7 +32,7 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title> Trang chủ | {nameApp}</title>
+        <title> Trang chủ | Move-Care</title>
   
         <link rel="icon" type="image/png" href={linkIcon}/>        
         

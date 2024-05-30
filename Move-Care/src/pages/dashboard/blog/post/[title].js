@@ -42,12 +42,15 @@ export default function BlogPostPage() {
   const [post, setPost] = useState(null);
   const [loadingPost, setLoadingPost] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [reason, setReason] = useState(''); // State to manage the reason
+  const [reason, setReason] = useState(""); // State to manage the reason
 
   const getPost = useCallback(async () => {
     try {
       const response = await axios.get(API_GET_POST_DETAIL);
-      setPost(response.data.data);
+      const fetchedPost = response.data.data;
+      setPost(fetchedPost);
+      setReason(fetchedPost.ly_do || ""); // Initialize reason with fetched post's ly_do
+      
       setLoadingPost(false);
     } catch (error) {
       console.error(error);
@@ -65,6 +68,7 @@ export default function BlogPostPage() {
   const handleDuyet = async () => {
     try {
       const response = await axios.get(API_DUYET_BAi);
+      setReason("")
       setPost(response.data.data);
     } catch (error) {
       console.error(error);
@@ -73,9 +77,7 @@ export default function BlogPostPage() {
 
   const handleTuChoi = async () => {
     try {
-       const response = await axios.post(API_TU_CHOI, { reason });
-      // const response = await axios.get(API_TU_CHOI);
-
+      const response = await axios.post(API_TU_CHOI, { reason });
       setPost(response.data.data);
     } catch (error) {
       console.error(error);
@@ -85,11 +87,11 @@ export default function BlogPostPage() {
   return (
     <>
       <Head>
-        <title>{`Blog: ${post?.tieu_de || ''} | ${nameApp}`}</title>
+        <title>Blog: | Move-Care</title>
         <link rel="icon" type="image/png" href={linkIcon} />
       </Head>
 
-      <Container maxWidth={themeStretch ? false : 'lg'}>
+      <Container maxWidth={themeStretch ? false : 'md'}>
         <CustomBreadcrumbs
           heading="Chi tiết bài thuê"
           links={[
@@ -114,119 +116,87 @@ export default function BlogPostPage() {
               boxShadow: (theme) => ({
                 md: theme.customShadows.card,
               }),
+              p: { xs: 2, md: 5 },
+              mx: 'auto',
+              maxWidth: 800, // Adjust the max width to control the size of the content
             }}
           >
             <BlogPostHero post={post} />
+            
             <Typography
               variant="h6"
               sx={{
-                py: 5,
-                px: { md: 5 },
-              }}
-            >
-              {post.description}
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                py: 5,
-                px: { md: 5 },
+                py: 2,
+                fontWeight: 'bold',
               }}
             >
               Tiêu đề: {post.tieu_de}
             </Typography>
+            
             <Typography
               variant="body1"
               sx={{
-                px: { md: 5 },
+                pb: 2,
               }}
             >
-              Mô tả ngắn: {post.mo_ta_ngan}
+              <strong>Mô tả ngắn:</strong> {post.mo_ta_ngan}
             </Typography>
+            
             <Typography
               variant="body1"
               sx={{
-                px: { md: 5 },
+                pb: 2,
               }}
             >
-              Mô tả chi tiết: {post.chi_tiet}
+              <strong>Mô tả chi tiết:</strong> {post.chi_tiet}
             </Typography>
+            
             <Typography
               variant="body1"
               sx={{
-                px: { md: 5 },
+                pb: 2,
               }}
             >
-              Giá mong muốn: {post.gia}
+              <strong>Giá mong muốn:</strong> {parseInt(post.gia).toLocaleString("vi-VN")} đồng
             </Typography>
+            
             <Typography
               variant="body1"
               sx={{
-                px: { md: 5 },
+                pb: 2,
               }}
             >
-              Địa chỉ làm việc: {post.dia_chi}
+              <strong>Địa chỉ làm việc:</strong> {post.dia_chi}
             </Typography>
+            
             <Markdown
               children={post.body}
-              sx={{
-                px: { md: 5 },
-              }}
             />
             <Stack
               direction="row"
               alignItems="center"
               spacing={1}
               sx={{
-                py: 5,
-                px: { md: 5 },
-              }}
-            >
-              <Typography variant="body1">Trạng thái:</Typography>
-              <Stack
-                variant="body1"
-                sx={{
-                  color: post.da_duyet ? '#4CAF50' : '#f44336',
-                }}
-                direction="row"
-                alignItems="center"
-              >
-                <span>{post.da_duyet ? 'Đã được duyệt' : 'Chưa duyệt'}</span>
-              </Stack>
-            </Stack>
-            <Stack
-              spacing={3}
-              sx={{
-                py: 5,
-                px: { md: 5 },
-              }}
-            >
-              <Divider />
-              <BlogPostTags post={post} />
-              <Divider />
-            </Stack>
-            <Stack
-              sx={{
-                px: { md: 5 },
-              }}
-            >
-              <Divider sx={{ mt: 5, mb: 2 }} />
-            </Stack>
-            <Stack
-              spacing={2}
-              sx={{
-                px: { md: 5 },
                 py: 2,
               }}
             >
-              <Button onClick={handleDuyet} variant="contained" color="primary">
-                Duyệt bài
-              </Button>
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Trạng thái:</Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color:   post.da_duyet === 0 ? 'orange' : post.da_duyet === 1 ? '#4CAF50' :'#f44336',
+
+                }}
+              >
+                {post.da_duyet === 0 ? "Đang chờ kiểm duyệt" : post.da_duyet === 1 ? "Đã được duyệt" : "Từ chối"}
+
+              </Typography>
             </Stack>
+
+            <Divider sx={{ mt: 2, mb: 2 }} />
+
             <Stack
-              spacing={2}
               sx={{
-                px: { md: 5 },
                 py: 2,
               }}
             >
@@ -234,12 +204,24 @@ export default function BlogPostPage() {
                 label="Lý do từ chối"
                 variant="outlined"
                 fullWidth
-                value={reason}
+                value={reason} // Use reason state
                 onChange={(e) => setReason(e.target.value)}
                 multiline
                 rows={4}
               />
-              <Button onClick={handleTuChoi} variant="contained" color="error">
+            </Stack>
+
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+              sx={{ py: 2 }}
+            >
+              <Button onClick={handleDuyet} variant="contained" color="primary" size="small">
+                Duyệt bài
+              </Button>
+              <Button onClick={handleTuChoi} variant="contained" color="error" size="small">
                 Từ chối
               </Button>
             </Stack>

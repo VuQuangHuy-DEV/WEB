@@ -41,7 +41,7 @@ export default function PermissionDeniedPage() {
   return (
     <>
       <Head>
-        <title> Other Cases: Permission Denied | Minimal UI</title>
+        <title> SOS: Bạn không có quyền truy cập trang này| Move-Care</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

@@ -23,7 +23,7 @@ export default function ThemeColorPresets({ children }) {
         primary: presetsColor,
       },
       customShadows: {
-        primary: `0 8px 16px 0 ${alpha(presetsColor.main, 0.24)}`,
+        primary: `0 8px 16px 0 ${alpha('#00AB55', 0.24)}`,
       },
     }),
     [presetsColor]

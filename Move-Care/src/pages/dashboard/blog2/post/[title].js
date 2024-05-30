@@ -37,12 +37,12 @@ export default function BlogPostPage() {
 
   const API_GET_POST_DETAIL = API_ROOT + 'rental/post/detail/' + id + '/';
   const API_DUYET_BAI = API_ROOT + 'rental/post/approve/' + id + '/';
-  const API_TUCHOI_BAI = API_ROOT + 'rental/post/refuse/' + id + '/'; // Assuming you have this endpoint for rejection
+  const API_TUCHOI_BAI = API_ROOT + 'rental/post/refuse/' + id + '/';
 
   const [post, setPost] = useState(null);
   const [loadingPost, setLoadingPost] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [reason, setReason] = useState(''); // State to manage the reason
+  const [reason, setReason] = useState('');
 
   const getPost = useCallback(async () => {
     try {
@@ -77,9 +77,7 @@ export default function BlogPostPage() {
     try {
       const response = await axios.post(API_TUCHOI_BAI, { reason });
       console.log(response.data);
-      // Handle the response if needed
       setPost(response.data.data);
-
     } catch (error) {
       console.error(error);
     }
@@ -88,7 +86,7 @@ export default function BlogPostPage() {
   return (
     <>
       <Head>
-        <title>{`Blog: ${post?.tieu_de || ''} | ${nameApp}`}</title>
+        <title>Blog: \Move-Care</title>
         <link rel="icon" type="image/png" href={linkIcon} />
       </Head>
 
@@ -117,39 +115,45 @@ export default function BlogPostPage() {
               boxShadow: (theme) => ({
                 md: theme.customShadows.card,
               }),
+              p: { xs: 2, md: 5 },
+              mx: 'auto',
+              maxWidth: 800,
             }}
           >
             <BlogPostHero post={post} />
+            
             <Typography
               variant="h6"
               sx={{
-                py: 5,
-                px: { md: 5 },
+                py: 2,
+                fontWeight: 'bold',
               }}
             >
-              Tiêu đề:  {post.tieu_de}
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                px: { md: 5 },
-              }}
-            >
-              Chi tiết: {post.chi_tiet}
+              Tiêu đề: {post.tieu_de}
             </Typography>
 
             <Typography
               variant="body1"
               sx={{
-                px: { md: 5 },
+                pb: 2,
               }}
             >
-              Dịch vụ kèm theo: {post.sub_service}
+              <strong>Chi tiết:</strong> {post.chi_tiet}
             </Typography>
+
+            <Typography
+              variant="body1"
+              sx={{
+                pb: 2,
+              }}
+            >
+              <strong>Dịch vụ kèm theo:</strong> {post.sub_service}
+            </Typography>
+
             <Markdown
               children={post.body}
               sx={{
-                px: { md: 5 },
+                pb: 2,
               }}
             />
             <Stack
@@ -157,55 +161,24 @@ export default function BlogPostPage() {
               alignItems="center"
               spacing={1}
               sx={{
-                py: 5,
-                px: { md: 5 },
+                py: 2,
               }}
             >
-              <Typography variant="body1">Trạng thái:</Typography>
-              <Stack
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Trạng thái:</Typography>
+              <Typography
                 variant="body1"
                 sx={{
                   color: post.da_duyet ? '#4CAF50' : '#f44336',
                 }}
-                direction="row"
-                alignItems="center"
               >
-                <span>{post.da_duyet ? 'Đã được duyệt' : 'Chưa duyệt'}</span>
-              </Stack>
+                {post.da_duyet ? 'Đã được duyệt' : 'Chưa duyệt'}
+              </Typography>
             </Stack>
-            <Stack
-              spacing={3}
-              sx={{
-                py: 5,
-                px: { md: 5 },
-              }}
-            >
-              <Divider />
-              <BlogPostTags post={post} />
-              <Divider />
-            </Stack>
+
+            <Divider sx={{ mt: 2, mb: 2 }} />
+
             <Stack
               sx={{
-                px: { md: 5 },
-              }}
-            >
-              <Divider sx={{ mt: 5, mb: 2 }} />
-            </Stack>
-            <Stack
-              spacing={2}
-              sx={{
-                px: { md: 5 },
-                py: 2,
-              }}
-            >
-              <Button onClick={handleDuyet} variant="contained" color="primary">
-                Duyệt bài
-              </Button>
-            </Stack>
-            <Stack
-              spacing={2}
-              sx={{
-                px: { md: 5 },
                 py: 2,
               }}
             >
@@ -218,7 +191,19 @@ export default function BlogPostPage() {
                 multiline
                 rows={4}
               />
-              <Button onClick={handleTuChoi} variant="contained" color="error">
+            </Stack>
+
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+              sx={{ py: 2 }}
+            >
+              <Button onClick={handleDuyet} variant="contained" color="primary" size="small">
+                Duyệt bài
+              </Button>
+              <Button onClick={handleTuChoi} variant="contained" color="error" size="small">
                 Từ chối
               </Button>
             </Stack>

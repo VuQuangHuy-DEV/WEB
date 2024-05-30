@@ -22,7 +22,7 @@ export default function Page403() {
   return (
     <>
       <Head>
-        <title> 403 Cấm | {nameApp}</title>
+        <title> 403 Cấm | Move-Care</title>
         <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png"/> 
       </Head>
 

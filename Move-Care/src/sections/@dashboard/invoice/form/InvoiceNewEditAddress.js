@@ -6,11 +6,8 @@ import { useFormContext } from 'react-hook-form';
 import { Stack, Divider, Typography, Button } from '@mui/material';
 // hooks
 import useResponsive from '../../../../hooks/useResponsive';
-// _mock
-import { _invoiceAddressFrom, _invoiceAddressTo } from '../../../../_mock/arrays';
 // components
 import Iconify from '../../../../components/iconify';
-//
 import InvoiceAddressListDialog from './InvoiceAddressListDialog';
 
 import axios from 'axios';
@@ -19,7 +16,7 @@ const API_GET_KHS = API_ROOT + 'auth/khachhang/getlist/';
 
 // ----------------------------------------------------------------------
 
-export default function InvoiceNewEditAddress() {
+export default function InvoiceNewEditAddress({ invoice }) {
   const {
     watch,
     setValue,
@@ -41,8 +38,12 @@ export default function InvoiceNewEditAddress() {
     const fetchInvoiceFrom = async () => {
       try {
         const response = await axios.get(API_GET_KHS);
-        setFromPerson(response.data.data);
-        setValue('invoiceFrom', response.data.data[0]); // Set the first item by default or adjust as needed
+        const customers = response.data.data;
+        setFromPerson(customers);
+
+        // Set the default value to the customer matching invoice?.khach_hang_thue.idkh
+        const defaultCustomer = customers.find(customer => customer.idkh === invoice?.khach_hang_thue.idkh);
+        setValue('invoiceFrom', defaultCustomer || customers[0]); // Default to the matching customer or the first customer
       } catch (error) {
         console.error('Failed to fetch invoiceFrom data:', error);
       }
@@ -60,7 +61,7 @@ export default function InvoiceNewEditAddress() {
 
     fetchInvoiceFrom();
     fetchInvoiceTo();
-  }, [setValue]);
+  }, [setValue, invoice?.khach_hang_thue.idkh]);
 
   const handleOpenFrom = () => {
     setOpenFrom(true);
@@ -108,7 +109,7 @@ export default function InvoiceNewEditAddress() {
           <InvoiceAddressListDialog
             open={openFrom}
             onClose={handleCloseFrom}
-            selected={(selectedId) => invoiceFrom?.idkh === selectedId}
+            selected={(selectedId) => invoice?.khach_hang_thue.idkh === selectedId}
             onSelect={(address) => setValue('invoiceFrom', address)}
             addressOptions={fromPerson}
           />

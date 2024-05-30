@@ -46,7 +46,7 @@ export default function GeneralEcommercePage() {
   return (
     <>
       <Head>
-        <title> Chung: Thống kê | {nameApp}</title>
+        <title> Chung: Thống kê | Move-Care</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'xl'}>

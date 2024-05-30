@@ -55,7 +55,7 @@ export default function UserAccountPage() {
   return (
     <>
       <Head>
-        <title> Tài khoản: Cài đặt tài khoản | {appName}</title>
+        <title> Tài khoản: Cài đặt tài khoản | Move-Care</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

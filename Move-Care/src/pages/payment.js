@@ -21,7 +21,7 @@ export default function PaymentPage() {
   return (
     <>
       <Head>
-        <title> Payment | Minimal UI</title>
+        <title> Payment | Move-Care</title>
       </Head>
 
       <Container

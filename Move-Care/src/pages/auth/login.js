@@ -15,7 +15,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title> Đăng nhập | {nameApp}</title>
+        <title> Đăng nhập | Move-Care</title>
         <link rel='icon' href={linkIcon}/>
       </Head>
 

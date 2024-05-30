@@ -24,7 +24,7 @@ export default function Page404() {
   return (
     <>
       <Head>
-        <title> 404 Không tìm thấy | {nameApp}</title>
+        <title> 404 Không tìm thấy | Move-Care</title>
         <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png"/> 
       </Head>
 
